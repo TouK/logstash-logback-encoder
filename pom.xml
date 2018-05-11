@@ -4,7 +4,7 @@
 
     <groupId>net.logstash.logback</groupId>
     <artifactId>logstash-logback-encoder</artifactId>
-    <version>4.6</version>
+    <version>4.6-touk-shaded</version>
 
     <name>Logstash Logback Encoder</name>
     <description>Logback encoder which will output events as Logstash-compatible JSON</description>
@@ -48,7 +48,7 @@
             <name>MIT License</name>
             <url>http://www.slf4j.org/license.html</url>
             <comments>
-                The portion of LogstashBasicMarker.java that has been copied from 
+                The portion of LogstashBasicMarker.java that has been copied from
                 org.slf4j.helpers.BasicMarker is released under the MIT License.
             </comments>
         </license>
@@ -78,6 +78,7 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
             <version>${ch.qos.logback.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
@@ -85,19 +86,21 @@
             <version>${ch.qos.logback.version}</version>
             <!--
                Required for logging regular ILoggingEvents with a Logger.
-               Not needed if only logging IAccessEvents for access logs. 
+               Not needed if only logging IAccessEvents for access logs.
             -->
             <optional>true</optional>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-access</artifactId>
             <version>${ch.qos.logback.version}</version>
             <!--
-               Required for logging IAccessEvents for access logs. 
+               Required for logging IAccessEvents for access logs.
                Not needed if only logging regular ILoggingEvents with a Logger.
             -->
             <optional>true</optional>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -329,6 +332,7 @@
                     <version>2.4.1</version>
                     <executions>
                         <execution>
+                            <phase>package</phase>
                             <goals>
                                 <goal>shade</goal>
                             </goals>
@@ -342,10 +346,13 @@
                             <excludes>
                                 <exclude>ch.qos.logback:*</exclude>
                                 <exclude>org.slf4j:*</exclude>
-                                <exclude>com.fasterxml.jackson.core:*</exclude>
                             </excludes>
                         </artifactSet>
                         <relocations>
+                            <relocation>
+                                <pattern>com.fasterxml.jackson</pattern>
+                                <shadedPattern>shaded.com.fasterxml.jackson</shadedPattern>
+                            </relocation>
                             <relocation>
                                 <pattern>org.apache.commons.lang</pattern>
                                 <shadedPattern>${project.groupId}.encoder.org.apache.commons.lang</shadedPattern>
