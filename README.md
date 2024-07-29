@@ -1,7 +1,7 @@
 ## About
 
 [logstash-logback-encoder](https://github.com/logfellow/logstash-logback-encoder) with shaded Jackson.
-Replaces our old fork (<https://github.com/TouK/logstash-logback-encoder-old>) with a simple buiold script that is easier to maintain.
+Replaces our [old fork](https://github.com/TouK/logstash-logback-encoder-old) with a simple build script that is easier to maintain.
 
 Allows us to use logstash-logback-encoder together with Flink, without creating conflicts when `classloader.resolve-order` is set to `parent-first`.
 
@@ -11,7 +11,7 @@ Version 8.0 requires Logback 1.5.
 
 ## Publishing
 
-These steps require that you have set up required steps for sbt-pgp (GPG key in keyring) and sbt-sonatype (credentials in ~/.sbt/1.0/sonatype.sbt).
+These steps require that you have set up sbt-pgp (GPG key is in keyring) and sbt-sonatype (credentials in ~/.sbt/1.0/sonatype.sbt).
 
 1. Update upstream artifact versions in _build.sbt_
 2. Update project version in _build.sbt_, if necessary
@@ -24,3 +24,10 @@ These steps require that you have set up required steps for sbt-pgp (GPG key in 
    ```sh
    sbt sonatypeBundleRelease
    ```
+
+Remember to tag released version in git, example for version 7.3:
+
+```sh
+git tag release/7.3
+git push origin release/7.3
+```
